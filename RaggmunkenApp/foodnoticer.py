@@ -6,7 +6,7 @@ import urllib
 
 
 veckansMeny = {u'Måndag': [], "Tisdag" : [], "Onsdag": [], "Torsdag": [], "Fredag": []}
-kompassen = "http://www.restaurangkompassen.se/index.php?option=com_content&view=article&id=64&Itemid=66"
+kompassen = "http://www.restaurangkompassen.se/index.php?option=com_content&view=article&id=108%3Adagens-lunch&catid=34&Itemid=66"
 
 
 def readMenu():
