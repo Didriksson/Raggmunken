@@ -1,39 +1,48 @@
 #!/usr/bin/env python
 # -*- coding: ISO-8859-1 -*-
 
-import foodnoticer
-import emailsender
+from celery.schedules import crontab
 import datetime
 
-from models import FoodItem, User, AlertList
 from Raggmunken.celery import app
+import emailsender
+import foodnoticer
+from models import FoodItem, User, AlertList
 
 
-@app.task()
+@app.task
+def testingTask():
+    print "Testing task, every minute."
+    
+
+
+@app.task
 def sendTodaysEmails():
     dagar = {
-            0 : u'Måndag', 
+            0 : u'Mï¿½ndag', 
             1 : 'Tisdag', 
             2 : 'Onsdag', 
             3 : 'Torsdag', 
             4 : 'Fredag', 
-            5 : u'Lördag', 
-            6 : u'Söndag'}
+            5 : u'Lï¿½rdag', 
+            6 : u'Sï¿½ndag'}
     
     
     """
-    Vi kör en klassisk mod för att kunna få ut morgondagen / antal veckodagar.
-    D.v.s. skulle söndag ploppa upp får vi Söndag = 6 + 1 som är en dag som inte finns.
-    Men 7 % 7 ger oss 0 som är Måndag. Eureka!
+    Vi kï¿½r en klassisk mod fï¿½r att kunna fï¿½ ut morgondagen / antal veckodagar.
+    D.v.s. skulle sï¿½ndag ploppa upp fï¿½r vi Sï¿½ndag = 6 + 1 som ï¿½r en dag som inte finns.
+    Men 7 % 7 ger oss 0 som ï¿½r Mï¿½ndag. Eureka! Efter att ha skickat ivï¿½g ett mail
+    till anvï¿½ndaren tar vi bort raden ur databasen.
     """
     veckodag = dagar[(datetime.datetime.today().weekday()+1) % 7]
     for fooditem in AlertList.objects.filter(servingdate=veckodag):
         emailsender.sendNotice(fooditem.fooditem)
+        AlertList.objects.get(fooditem=fooditem).delete()
 
 
 
 
-@app.task()
+@app.task
 def performMenuCheck():
     userFoodList = {}
     for user in User.objects.all():

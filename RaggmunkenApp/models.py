@@ -1,14 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-
-# Create your models here.
-class User(models.Model):
-    username = models.CharField(max_length=200)
-    email = models.CharField(max_length=200)
-    
-    def __unicode__(self):
-        return '%s, %s' % (self.username,
-                             self.email)
 
 class FoodItem(models.Model):
     username = models.ForeignKey(User)
@@ -21,5 +13,4 @@ class AlertList(models.Model):
     servingdate = models.CharField(max_length=200)
     def __unicode__(self):
         return self.fooditem.__unicode__() + " - " + self.servingdate
-    
     

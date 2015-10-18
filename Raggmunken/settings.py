@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django.contrib.auth
 import djcelery
 import os
 
@@ -19,15 +20,14 @@ djcelery.setup_loader()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-BROKER_URL = 'django://'
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'muopef-xdn2!ev$zz&4arcya8cibxr1bf_4*&xbfky7q(!u&gd'
+
+
+django.contrib.auth.LOGIN_URL = '/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,8 +45,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'RaggmunkenApp',
-    'kombu.transport.django',
     'djcelery',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -110,3 +110,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/didde/dockyard/Raggmunken/static/'

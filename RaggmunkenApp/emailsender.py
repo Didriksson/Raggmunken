@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: ISO-8859-1 -*-
 
-import yagmail
+"""
+Den hï¿½r lï¿½sningen fungerar ENDAST i unixmiljï¿½.
+"""
+
+import yagmail, emaildetails, base64
 
 
-"""
-Den här lösningen fungerar ENDAST i unixmiljö.
-"""
 def sendNotice(fooditem):
-    yag = yagmail.SMTP('didrikssonfoodmonitor@gmail.com')
+    yag = yagmail.SMTP(emaildetails.emailaddress, base64.standard_b64decode(emaildetails.key))
     to = fooditem.username.email.encode('utf8')
-    subject = u'Food alert! Kasta matlådan!'.encode('utf8')
-    body = u'Godmorgon!\n Imorgon serveras inget mindre än '.encode('utf8') + fooditem.food.encode('utf8') + u' på Kompassen. Väl mött!\n Hälsningar,\nDidriksson Food Monitor'.encode('utf8')
+    subject = u'Food alert! Kasta matlï¿½dan!'.encode('utf8')
+    body = u'Godmorgon!\n Imorgon serveras inget mindre ï¿½n '.encode('utf8') + fooditem.food.encode('utf8') + u' pï¿½ Kompassen. Vï¿½l mï¿½tt!\n Hï¿½lsningar,\nDidriksson Food Monitor'.encode('utf8')
     yag.send(to=to, subject=subject, contents=[body])
