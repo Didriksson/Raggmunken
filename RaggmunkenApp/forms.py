@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: ISO-8859-1 -*-
 
-import re
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-from models import FoodItem
 from django.forms.widgets import CheckboxSelectMultiple
+from django.utils.translation import ugettext_lazy as _
+import re
+
 from RaggmunkenApp.models import FoodItem
- 
+from models import FoodItem
+
+
 class RegistrationForm(forms.Form):
  
     username = forms.RegexField(regex=r'^\w+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Username"), error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })

@@ -13,19 +13,17 @@ from models import FoodItem, User, AlertList
 @app.task
 def testingTask():
     print "Testing task, every minute."
-    
-
 
 @app.task
 def sendTodaysEmails():
     dagar = {
-            0 : u'M�ndag', 
+            0 : u'Måndag', 
             1 : 'Tisdag', 
             2 : 'Onsdag', 
             3 : 'Torsdag', 
             4 : 'Fredag', 
-            5 : u'L�rdag', 
-            6 : u'S�ndag'}
+            5 : u'Lördag', 
+            6 : u'Söndag'}
     
     
     """
@@ -35,11 +33,11 @@ def sendTodaysEmails():
     till anv�ndaren tar vi bort raden ur databasen.
     """
     veckodag = dagar[(datetime.datetime.today().weekday()+1) % 7]
+    print "Checking alertlist for weekday: " + veckodag.encode('utf-8')
     for fooditem in AlertList.objects.filter(servingdate=veckodag):
+        print "Hittat en matchning"
         emailsender.sendNotice(fooditem.fooditem)
-        AlertList.objects.get(fooditem=fooditem).delete()
-
-
+        fooditem.delete()
 
 
 @app.task
@@ -63,5 +61,5 @@ def performMenuCheck():
             dag =  foodnoticer.findItemInMeny(food.food)
             if dag:
                 print "Found: " + dag
-                AlertList.objects.create(fooditem=food, servingdate=dag)
-    
+                AlertList.objects.create(fooditem=food,servingdate=dag.encode('utf-8'))
+

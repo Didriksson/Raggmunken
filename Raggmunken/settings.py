@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import django.contrib.auth
 import djcelery
 import os
 
@@ -21,12 +20,13 @@ djcelery.setup_loader()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'muopef-xdn2!ev$zz&4arcya8cibxr1bf_4*&xbfky7q(!u&gd'
 
-
+import django.contrib.auth
 django.contrib.auth.LOGIN_URL = '/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
