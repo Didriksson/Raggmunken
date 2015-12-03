@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: ISO-8859-1 -*-
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from forms import RegistrationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView
-from models import FoodItem
+
 from RaggmunkenApp.forms import FoodItemForm
+from forms import RegistrationForm
+from models import FoodItem
+
 
 # Create your views here.
 def index(request):
